@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>密信 · 安全阅读邀请</title>
+  <meta name="description" content="一次性加密消息，仅可查看一次，无需安装 App" />
+
+  <!--
+    微信抓取只读静态 HTML，不执行 JS。部署时请修改 OG_BASE 为公网 HTTPS 根路径。
+    例：https://s.secreit.cn/r/preview/  或  https://xxx.loca.lt/
+  -->
+  <!-- 部署后执行: ./set-og-base.sh https://<你的用户名>.github.io/secreit-og-preview -->
+  <!-- OG_BASE=https://YOUR_USERNAME.github.io/secreit-og-preview/ -->
+
+  <!-- Open Graph（微信 / QQ / 钉钉 链接预览） -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="密信 · 安全阅读邀请" />
+  <meta property="og:description" content="一次性加密消息，仅可查看一次，无需安装 App" id="og-description" />
+  <meta property="og:image" content="https://YOUR_USERNAME.github.io/secreit-og-preview/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:url" content="https://YOUR_USERNAME.github.io/secreit-og-preview/h5-landing-og.html" />
+  <meta property="og:site_name" content="密信 Secreit" />
+
+  <!-- 部分抓取器使用 itemprop -->
+  <meta itemprop="name" content="密信 · 安全阅读邀请" />
+  <meta itemprop="description" content="一次性加密消息，仅可查看一次，无需安装 App" id="itemprop-description" />
+  <meta itemprop="image" content="https://YOUR_USERNAME.github.io/secreit-og-preview/og-image.jpg" />
+
+  <style>
+    :root {
+      --primary: #6366F1;
+      --bg: #FAFAFA;
+      --text: #18181B;
+      --muted: #71717A;
+      --border: #E4E4E7;
+      --font: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+    .hd {
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      background: #fff; display: flex; align-items: center; gap: 8px;
+    }
+    .logo {
+      width: 20px; height: 20px; border-radius: 6px; background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo::after {
+      content: ""; width: 9px; height: 10px; border: 2px solid #fff;
+      border-radius: 3px; border-top: none; margin-top: -2px;
+    }
+    .hd span { font-size: 14px; font-weight: 600; }
+    main { padding: 24px 20px 32px; max-width: 420px; margin: 0 auto; }
+    h1 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .lead { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .note {
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; font-size: 15px; line-height: 1.5; margin-bottom: 20px;
+      display: none;
+    }
+    .note.show { display: block; }
+    .bullets { list-style: none; margin-bottom: 20px; }
+    .bullets li {
+      font-size: 13px; color: var(--muted); padding: 6px 0 6px 18px; position: relative; line-height: 1.45;
+    }
+    .bullets li::before {
+      content: ""; position: absolute; left: 0; top: 12px;
+      width: 6px; height: 6px; border-radius: 999px; background: var(--primary);
+    }
+    .meta { font-size: 12px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .btn {
+      display: block; width: 100%; text-align: center; background: var(--primary);
+      color: #fff; font-size: 16px; font-weight: 600; padding: 14px; border-radius: 12px;
+      border: none; cursor: pointer; text-decoration: none;
+    }
+    .foot {
+      margin-top: 28px; text-align: center; font-size: 11px; color: #A1A1AA; line-height: 1.8;
+    }
+    .foot a { color: var(--primary); text-decoration: none; }
+    .dev-banner {
+      background: #FEF3C7; border-bottom: 1px solid #FCD34D;
+      padding: 8px 12px; font-size: 11px; color: #92400E; text-align: center; line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="dev-banner" id="devBanner">OG 测试页 · 微信抓取需公网 HTTPS URL</div>
+
+  <header class="hd">
+    <div class="logo"></div>
+    <span>密信 · 安全阅读</span>
+  </header>
+
+  <main>
+    <h1>你收到一条加密消息</h1>
+    <p class="lead">这是一条一次性加密消息，无需安装 App 即可查看。</p>
+
+    <div class="note" id="noteBox"></div>
+
+    <ul class="bullets">
+      <li>仅可查看一次，看完即删</li>
+      <li>无需安装 App / 无需注册</li>
+      <li>内容加密传输</li>
+    </ul>
+
+    <p class="meta" id="metaLine">24 小时内有效 · 需要访问密码</p>
+
+    <a class="btn" href="#" id="ctaBtn">查看密信</a>
+
+    <div class="foot">
+      这不是 App 下载链接<br />
+      <a href="#">举报可疑消息</a> · 沪 ICP备xxxxxxx号（示例）
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var note = params.get("note");
+      var pwd = params.get("pwd") !== "0";
+      var origin = location.origin;
+      var base = location.pathname.replace(/\/[^/]*$/, "/");
+      var imageUrl = origin + base + "og-image.png";
+      var pageUrl = location.href.split("#")[0];
+
+      document.getElementById("og-image").setAttribute("content", imageUrl);
+      document.getElementById("itemprop-image").setAttribute("content", imageUrl);
+      document.getElementById("og-url").setAttribute("content", pageUrl);
+
+      if (note) {
+        var desc = note.length > 30 ? note.slice(0, 30) + "…" : note;
+        document.getElementById("og-description").setAttribute("content", desc);
+        document.getElementById("itemprop-description").setAttribute("content", desc);
+        var box = document.getElementById("noteBox");
+        box.textContent = note;
+        box.classList.add("show");
+      }
+
+      document.getElementById("metaLine").textContent =
+        "24 小时内有效 · " + (pwd ? "需要访问密码" : "无需访问密码");
+
+      document.getElementById("ctaBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        alert("正式版将跳转 H1 密码页 / H2 阅读页\n当前为 OG + H-L 落地页测试");
+      });
+
+      if (location.protocol === "file:") {
+        document.getElementById("devBanner").textContent =
+          "当前为本地文件，微信无法抓取 OG。请用下方 README 部署到公网 HTTPS 后再分享。";
+      }
+    })();
+  </script>
+</body>
+</html>

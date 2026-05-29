@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>微信链接卡片 · 模拟预览</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      background: #EDEDED;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
+      color: #111;
+    }
+    h1 { font-size: 15px; font-weight: 600; text-align: center; margin-bottom: 6px; }
+    .sub { font-size: 12px; color: #888; text-align: center; margin-bottom: 20px; line-height: 1.5; }
+    .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab {
+      padding: 8px 14px; border-radius: 8px; border: 1px solid #D9D9D9;
+      background: #fff; font-size: 13px; cursor: pointer;
+    }
+    .tab.active { border-color: #6366F1; color: #6366F1; font-weight: 600; }
+    .phone {
+      max-width: 360px; margin: 0 auto; background: #EDEDED;
+      border-radius: 12px; overflow: hidden;
+    }
+    .chat-hd {
+      background: #EDEDED; padding: 12px 16px; text-align: center;
+      font-size: 16px; font-weight: 600; border-bottom: 1px solid #D9D9D9;
+    }
+    .chat-body { padding: 16px 12px 24px; }
+    .time { text-align: center; font-size: 12px; color: #B2B2B2; margin-bottom: 16px; }
+    .row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+    .bubble-text {
+      max-width: 72%; background: #95EC69; border-radius: 8px;
+      padding: 10px 12px; font-size: 15px; line-height: 1.45;
+      border: 1px solid #87D96E; word-break: break-word;
+    }
+    .row.card { align-items: flex-start; }
+    .link-card {
+      max-width: 78%; background: #fff; border-radius: 8px;
+      overflow: hidden; border: 1px solid #E0E0E0;
+    }
+    .link-card .title {
+      padding: 10px 12px 6px; font-size: 15px; font-weight: 600;
+      line-height: 1.35; color: #111;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .link-card .desc {
+      padding: 0 12px 8px; font-size: 13px; color: #888; line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .link-card .thumb-row {
+      display: flex; border-top: 1px solid #F0F0F0; min-height: 56px;
+    }
+    .link-card .thumb {
+      width: 56px; height: 56px; flex-shrink: 0; object-fit: cover; background: #0F0F14;
+    }
+    .link-card .domain {
+      flex: 1; padding: 8px 10px; font-size: 11px; color: #B2B2B2;
+      display: flex; align-items: center;
+    }
+    .spec {
+      max-width: 360px; margin: 20px auto 0; background: #fff;
+      border-radius: 10px; padding: 14px; font-size: 12px; color: #666; line-height: 1.6;
+      border: 1px solid #E4E4E7;
+    }
+    .spec strong { color: #333; }
+    .spec code { background: #F4F4F5; padding: 1px 4px; border-radius: 4px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <h1>微信 · 链接卡片模拟</h1>
+  <p class="sub">本地静态模拟，非微信真机抓取结果<br>真机测试请部署 <code>h5-landing-og.html</code> 后发链接</p>
+
+  <div class="tabs">
+    <button type="button" class="tab active" data-variant="default">默认（无留言）</button>
+    <button type="button" class="tab" data-variant="note">带留言</button>
+  </div>
+
+  <div class="phone">
+    <div class="chat-hd">同事小王</div>
+    <div class="chat-body">
+      <div class="time">下午 2:32</div>
+      <div class="row">
+        <div class="bubble-text" id="imText"></div>
+      </div>
+      <div class="row card">
+        <div class="link-card">
+          <div class="title" id="ogTitle"></div>
+          <div class="desc" id="ogDesc"></div>
+          <div class="thumb-row">
+            <img class="thumb" src="og-image.png" alt="" width="56" height="56" />
+            <div class="domain">s.secreit.cn</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec" id="spec"></div>
+
+  <script>
+    const VARIANTS = {
+      default: {
+        im: "我通过密信给你发了一条加密消息，点下面卡片就能看，不用装 App。",
+        title: "密信 · 安全阅读邀请",
+        desc: "一次性加密消息，仅可查看一次，无需安装 App",
+        spec: "OG <strong>og:title</strong>：密信 · 安全阅读邀请<br>OG <strong>og:description</strong>：一次性加密消息，仅可查看一次，无需安装 App",
+      },
+      note: {
+        im: "Wi-Fi 密码发你了，密信链接在下面，看完就删。",
+        title: "密信 · 安全阅读邀请",
+        desc: "会议室 Wi-Fi 密码，看完即焚",
+        spec: "有留言时 <strong>og:description</strong> 使用留言摘要（前 30 字），<strong>不展示</strong>称呼/尾号",
+      },
+    };
+
+    function render(variant) {
+      const v = VARIANTS[variant];
+      document.getElementById("imText").textContent = v.im;
+      document.getElementById("ogTitle").textContent = v.title;
+      document.getElementById("ogDesc").textContent = v.desc;
+      document.getElementById("spec").innerHTML = v.spec;
+      document.querySelectorAll(".tab").forEach((t) => {
+        t.classList.toggle("active", t.dataset.variant === variant);
+      });
+    }
+
+    document.querySelectorAll(".tab").forEach((btn) => {
+      btn.addEventListener("click", () => render(btn.dataset.variant));
+    });
+    render("default");
+  </script>
+</body>
+</html>
